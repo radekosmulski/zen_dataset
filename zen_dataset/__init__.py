@@ -1,8 +1,9 @@
 name = 'zen_dataset'
 
-from .zen_dataset import *
+from .dataset import *
+from .utils import *
 
 __all__ = [
-        'ZenDataset'
+        'Dataset'
         ]
 

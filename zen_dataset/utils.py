@@ -15,10 +15,15 @@ def paths_to_files_in(dir):
 
 def open_image(path): return PIL.Image.open(path).convert('RGB')
 
-def image2tensor(image):
-    ary = np.asarray(image)
+def image2ary(image): return np.asarray(image)
+
+def ary2tensor(ary, dtype=np.float32): return torch.from_numpy(ary.astype(dtype, copy=False))
+
+def image2tensor(image, augment_fn=None):
+    ary = image2ary(image)
+    if augment_fn: ary = augment_fn(ary)
     ary = ary.transpose(2, 0, 1)
-    tensor =  torch.from_numpy(ary.astype(np.float32, copy=False))
+    tensor = ary2tensor(ary)
     return tensor.div_(255)
 
 imagenet_stats = ([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
